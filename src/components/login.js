@@ -1,38 +1,23 @@
-import React from 'react';
+import React, {useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Redirect } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
 
-export default class Login extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            email: '',
-            password: '',
-            messeage: '',
-            auth: localStorage.token
-        }
-        this.onLoginChange = this.onLoginChange.bind(this);
-        this.onPassChange = this.onPassChange.bind(this);
-        this.onSubmitLogin = this.onSubmitLogin.bind(this);
-    }
-    onLoginChange(e) {
-        this.setState({
-          email: e.target.value
-        })
-      }
-      onPassChange(e) {
-        this.setState({
-          password: e.target.value
-        })
-      }
-      async onSubmitLogin() {
-              this.setState({
-                messeage: ''
-              })
+function Login() {
+  let [email, setEmail] = useState(''),
+  [password, setPassword] = useState(''),
+  [messeage, setMesseage] = useState(''),
+  [classMesseage, setClassMesseage] = useState('')
+  const dispatch = useDispatch();
+  const token = useSelector(state => state.token)
+
+      async function onSubmitLogin() {
+        let body = {'email':email,
+        'password': password}
               const url = 'https://test.flcd.ru/api/token';
               let response = await fetch(url, {
                 method: 'POST',
-                body: JSON.stringify(this.state),
+                body: JSON.stringify(body),
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -40,38 +25,31 @@ export default class Login extends React.Component {
 
 let result = await response.json();
 if (response.ok) {
-  this.setState({
-    messeage: 'You have successfully logged in',
-    classMesseage: 'alert-success'
-  })
-  localStorage.token = result.token;
-  this.setState ({
-    auth: localStorage.token
-  })
+  setMesseage(messeage = 'You have successfully logged in');
+  setClassMesseage(classMesseage = 'alert-success');
+  dispatch({type:"ADD_TOKEN", load: result.token})
 } else {
     if (result.errors) {
-    this.setState({
-        messeage: result.errors,
-        classMesseage: 'alert-danger'
-      })
+      setMesseage(messeage = result.errors);
+      setClassMesseage(classMesseage = 'alert-danger');
     }else{
-        this.setState({
-            messeage: result.message,
-            classMesseage: 'alert-danger'
-          })
+          setMesseage(messeage = result.message);
+      setClassMesseage(classMesseage = 'alert-danger');
     }
 }
       }
-    render() {
-        if (this.state.auth === undefined) {
+        if (token === undefined) {
         return (
+          <div>
             <div className='form login'>
-                <input onChange={this.onLoginChange} className="form-control" type="email" placeholder="Почта" required></input>
-                <input onChange={this.onPassChange} className="form-control" type="password" placeholder="Пароль" required></input>
-                <button className="btn btn-primary" type="submit" onClick={this.onSubmitLogin}>Вход</button>
-                <div className={this.state.classMesseage}>{this.state.messeage}</div>
+                <input onChange={(event) => setEmail(email = event.target.value)} className="form-control" type="email" placeholder="Почта" required></input>
+                <input onChange={(event) => setPassword(password = event.target.value)} className="form-control" type="password" placeholder="Пароль" required></input>
+                <button className="btn btn-primary" onClick={onSubmitLogin} type="submit">Вход</button>
+                <div className={classMesseage}>{messeage}</div>
+            </div>
             </div>
         )
-    }else{ return <Redirect to='/' />}
+    }else{ return <Redirect to='/'/>}
 }
-}
+
+export default Login;

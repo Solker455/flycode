@@ -1,60 +1,44 @@
-import React from 'react';
+import React, {useState}from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
+import { useSelector } from 'react-redux';
 
-export default class EditPost extends React.Component {
-constructor(props) {
-    super(props);
-    this.state = {
-        text: this.props.text,
-    }
-    this.onSubmitEdit = this.onSubmitEdit.bind(this)
-    this.onChangeEditText = this.onChangeEditText.bind(this)
-}
-
-onChangeEditText(e) {
-    this.setState ({
-        text: e.target.value
-    })
-}
-
-async onSubmitEdit(e) {
-    e.preventDefault()
-    const url = `https://test.flcd.ru/api/post/${this.props.id}`;
+function EditPost(obj) {
+    let [text, setText] = useState(''),
+    [messeage, setMesseage] = useState(''),
+    [classMesseage, setClassMesseage] = useState('');
+    const token = useSelector(state => state.token)
+async function onSubmitEdit() {
+    let body = {'text': text}
+    const url = `https://test.flcd.ru/api/post/${obj.id}`;
     let response = await fetch(url, {
       method: 'PATCH',
-      body: JSON.stringify(this.state),
+      body: JSON.stringify(body),
       headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.token}`,
+          'Authorization': `Bearer ${token}`,
       }
     });
 let result = await response.json();
 if (response.ok) {
-this.setState({
-  messeage: 'Пост изменен',
-  classMesseage: 'alert-success'
-})
+    setMesseage(messeage = 'Пост изменен');
+      setClassMesseage(classMesseage = 'alert-success');
 } else {
   if (result.errors) {
-    this.setState({
-        messeage: result.errors,
-        classMesseage: 'alert-danger'
-      })
+    setMesseage(messeage = result.errors);
+    setClassMesseage(classMesseage = 'alert-danger');
     }else{
-        this.setState({
-            messeage: result.message,
-            classMesseage: 'alert-danger'
-          })
+        setMesseage(messeage = result.message);
+    setClassMesseage(classMesseage = 'alert-danger');
     }
 }
 }
-    render() {
         return(
             <div className="edit">
-            <input defaultValue={this.props.text} type="text" onChange={this.onChangeEditText} className="form-control" />
-            <button className="btn btn-primary" type="submit" onClick={this.onSubmitEdit}>Изменить</button>
-            <div className={this.state.classMesseage}>{this.state.messeage}</div>
+            <input defaultValue={obj.text} type="text" onChange={(event) => setText(text = event.target.value)} className="form-control" />
+            <button className="btn btn-primary" type="submit" onClick={onSubmitEdit}>Изменить</button>
+            <div className={classMesseage}>{messeage}</div>
             </div>
         )
-    }
 }
+
+export default EditPost;

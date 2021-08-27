@@ -1,92 +1,74 @@
-import React from 'react';
+import React, {useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Redirect } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
 
-export default class Register extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: '',
-      email: '',
-      password: '',
-      password_confirmation: '',
-      messeage: '',
-      classMesseage: '',
-      auth: localStorage.token
-    }
-    this.onSubmit = this.onSubmit.bind(this);
-    this.onNameChange = this.onNameChange.bind(this);
-    this.onEmailChange = this.onEmailChange.bind(this);
-    this.onPasswordChange = this.onPasswordChange.bind(this);
-    this.onPasswordConfirmationChange = this.onPasswordConfirmationChange.bind(this);
-  }
+function Register() {
 
-  onNameChange(e) {
-    this.setState({
-      name: e.target.value
-    })
-  }
-  onEmailChange(e) {
-    this.setState({
-      email: e.target.value
-    })
-  }
-  onPasswordChange(e) {
-    this.setState({
-      password: e.target.value
-    })
-  }
-  onPasswordConfirmationChange(e) {
-    this.setState({
-      password_confirmation: e.target.value
-    })
-  }
+  let [name, setName] = useState(''),
+  [email, setEmail] = useState(''),
+  [password, setPassword] = useState(''),
+  [passwordConfirmation, setPasswordConfirmation] = useState(''),
+  [messeage, setMesseage] = useState(''),
+  [classMesseage, setClassMessage] = useState('');
+  const dispatch = useDispatch();
+  const token = useSelector(state => state.token)
 
-  async onSubmit() {
+
+  async function onSubmit() {
+    let body = {'name': name,
+                'email':email,
+                'password': password,
+                'password_confirmation': passwordConfirmation}
     const url = 'https://test.flcd.ru/api/register';
     let response = await fetch(url, {
       method: 'POST',
-      body: JSON.stringify(this.state),
+      body: JSON.stringify(body),
       headers: {
           'Content-Type': 'application/json'
       }
     });
 let result = await response.json();
 if (response.ok) {
-this.setState({
-  messeage: 'You have registered!',
-  classMesseage: 'alert-success'
-})
-localStorage.token = result.token
-this.setState ({
-  auth: localStorage.token
-})
+setMesseage(
+  messeage = 'You have registered!'
+)
+setClassMessage(
+  classMesseage = 'alert-success'
+)
+dispatch({type:"ADD_TOKEN", load: result.token})
 } else {
   if (result.errors) {
-    this.setState({
-        messeage: result.errors,
-        classMesseage: 'alert-danger'
-      })
+    setMesseage(
+        messeage = result.errors
+      )
+      setClassMessage(
+        classMesseage = 'alert-danger'
+      )
     }else{
-        this.setState({
-            messeage: result.message,
-            classMesseage: 'alert-danger'
-          })
+      setMesseage(
+        messeage = result.message
+      )
+      setClassMessage(
+        classMesseage = 'alert-danger'
+      )
     }
 }
 }
-  render() {
-    if (this.state.auth === undefined) {
+    if (token === undefined) {
   return ( 
+    <div>
       <div className="form register">
-        <input onChange={this.onNameChange} className="form-control" type="text" placeholder="Имя" required></input>
-        <input onChange={this.onEmailChange} className="form-control" type="email" placeholder="Почта" required></input>
-        <input onChange={this.onPasswordChange} className="form-control" type="password" placeholder="Пароль" required></input>
-        <input onChange={this.onPasswordConfirmationChange} className="form-control" type="password" placeholder="Подтверждение пароля" required></input>
-        <button className="btn btn-primary" type="submit" onClick={this.onSubmit}>Зарегистрироваться</button>
-        <div className={this.state.classMesseage}>{this.state.messeage}</div>
+        <input onChange={(event) => setName(name = event.target.value)} className="form-control" type="text" placeholder="Имя" required></input>
+        <input onChange={(event) => setEmail(email = event.target.value)} className="form-control" type="email" placeholder="Почта" required></input>
+        <input onChange={(event) => setPassword(password = event.target.value)} className="form-control" type="password" placeholder="Пароль" required></input>
+        <input onChange={(event) => setPasswordConfirmation(passwordConfirmation = event.target.value)} className="form-control" type="password" placeholder="Подтверждение пароля" required></input>
+        <button className="btn btn-primary" type="submit" onClick={onSubmit}>Зарегистрироваться</button>
+        <div className={classMesseage}>{messeage}</div>
+      </div>
       </div>
   );
     }else {return <Redirect to='/' />}
-  }
 }
+
+export default Register;

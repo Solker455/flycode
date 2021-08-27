@@ -1,13 +1,13 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-export default class PostListItem extends React.Component {
-    render() {
-        const {label, onDelete, idEdit, textEdit} = this.props;
+function PostListItem({label, onDelete, idEdit, textEdit}) {
         let link = `/editpost/${idEdit}/${textEdit}`
         let classNames;
-        if (localStorage.token !== undefined) {
+        const token = useSelector(state => state.token)
+        if (token !== undefined) {
             classNames = 'd-flex'
         }else{
             classNames = 'd-none'
@@ -19,14 +19,16 @@ export default class PostListItem extends React.Component {
             </span>
         
         <div className={classNames}>
-            <button type="button" onClick={onDelete} className="btn-sm m-1">
+            <button className='button' onClick={onDelete} >
                 Удалить
             </button>
-                <Link type="button" to={link} className="btn-sm m-1">
+            <button className='button'>
+            <Link to={link} >
                 Редактировать
             </Link>
+            </button>
         </div>
         </div>
         )
-    }
 }
+export default PostListItem;

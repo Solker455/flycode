@@ -1,65 +1,51 @@
-import React from 'react';
+import React, {useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
+import { Redirect } from 'react-router';
+import { useSelector } from 'react-redux';
 
 
-export default class AddPost extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            text: ''
-        }
-        this.onTextChange = this.onTextChange.bind(this);
-        this.onAddPost = this.onAddPost.bind(this);
-    }
-    onTextChange(e) {
-        this.setState({
-          text: e.target.value
-        })
-      }
-      async onAddPost() {
-              this.setState({
-                messeage: ''
-              })
+function AddPost() {
+  let [text, setText] = useState(''),
+  [messeage, setMesseage] = useState(''),
+  [classMesseage, setClassMesseage] = useState('');
+  const token = useSelector(state => state.token)
+      async function onAddPost() {
+        let body = {'text': text};
               const url = 'https://test.flcd.ru/api/post';
               let response = await fetch(url, {
                 method: 'POST',
-                body: JSON.stringify(this.state),
+                body: JSON.stringify(body),
                 headers: {
-                    'Authorization': `Bearer ${localStorage.token}`,
+                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 }
               });
 
 let result = await response.json();
 if (response.ok) {
-  this.setState({
-    messeage: 'Post added',
-    classMesseage: 'alert-success',
-  })
+  setMesseage(messeage = `'${body.text}' успешно добавлен`);
+  setClassMesseage(classMesseage = 'alert-success');
 } else {
     if (result.errors) {
-    this.setState({
-        messeage: result.errors,
-        classMesseage: 'alert-danger'
-      })
+      setMesseage(messeage = result.errors);
+      setClassMesseage(classMesseage = 'alert-danger');
     }else{
-        this.setState({
-            messeage: result.message,
-            classMesseage: 'alert-danger'
-          })
+      setMesseage(messeage = result.message);
+      setClassMesseage(classMesseage = 'alert-danger');
     }
 }
       }
 
-    render() {
-        if (localStorage.token !== undefined) {
+        if (token !== undefined) {
         return (
             <div className='form'>
-                <input onChange={this.onTextChange} value={this.state.text} className="form-control" type="text" placeholder="Введите текст поста" required></input>
-                <button className="btn btn-primary" type="submit" onClick={this.onAddPost}>Добавить</button>
-                <div className={this.state.classMesseage}>{this.state.messeage}</div>
+                <input onChange={(event) => setText(text = event.target.value)} className="form-control" type="text" placeholder="Введите текст поста" required></input>
+                <button className="btn btn-primary" type="submit" onClick={onAddPost}>Добавить</button>
+                <div className={classMesseage}>{messeage}</div>
             </div>
         )
-    }else{ return null}
+    }else{ return <Redirect to='/'/>}
+
 }
-}
+
+export default AddPost;
