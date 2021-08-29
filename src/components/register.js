@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Redirect } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
+import Helmet from 'react-helmet';
 
 function Register() {
 
@@ -13,7 +14,6 @@ function Register() {
   [classMesseage, setClassMessage] = useState('');
   const dispatch = useDispatch();
   const token = useSelector(state => state.token)
-
 
   async function onSubmit() {
     let body = {'name': name,
@@ -57,15 +57,14 @@ dispatch({type:"ADD_TOKEN", load: result.token})
 }
     if (token === undefined) {
   return ( 
-    <div>
-      <div className="form register">
+      <div className="form">
+        <Helmet title="Форма регистрации" />
         <input onChange={(event) => setName(name = event.target.value)} className="form-control" type="text" placeholder="Имя" required></input>
         <input onChange={(event) => setEmail(email = event.target.value)} className="form-control" type="email" placeholder="Почта" required></input>
         <input onChange={(event) => setPassword(password = event.target.value)} className="form-control" type="password" placeholder="Пароль" required></input>
         <input onChange={(event) => setPasswordConfirmation(passwordConfirmation = event.target.value)} className="form-control" type="password" placeholder="Подтверждение пароля" required></input>
         <button className="btn btn-primary" type="submit" onClick={onSubmit}>Зарегистрироваться</button>
         <div className={classMesseage}>{messeage}</div>
-      </div>
       </div>
   );
     }else {return <Redirect to='/' />}

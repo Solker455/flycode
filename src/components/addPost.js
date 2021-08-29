@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Redirect } from 'react-router';
 import { useSelector } from 'react-redux';
-
+import Helmet from 'react-helmet';
 
 function AddPost() {
   let [text, setText] = useState(''),
@@ -38,8 +38,9 @@ if (response.ok) {
 
         if (token !== undefined) {
         return (
-            <div className='form'>
-                <input onChange={(event) => setText(text = event.target.value)} className="form-control" type="text" placeholder="Введите текст поста" required></input>
+            <div className='add-form'>
+              <Helmet title="Добавить поста" />
+                <textarea onChange={(event) => setText(text = event.target.value)} className="form-control" type="text" placeholder="Введите текст поста" required></textarea>
                 <button className="btn btn-primary" type="submit" onClick={onAddPost}>Добавить</button>
                 <div className={classMesseage}>{messeage}</div>
             </div>

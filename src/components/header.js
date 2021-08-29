@@ -8,7 +8,7 @@ function Header() {
 
         if (token===undefined) {
             return(
-                <div className="d-flex App-header ">
+                <div className="App-header ">
                     <Link to="/" className="btn btn-primary" >Все посты</Link>
                         <span >
                         
@@ -20,7 +20,7 @@ function Header() {
             )
         }else{
             return (
-            <div className="d-flex App-header ">
+            <div className="App-header ">
                     <Link to="/" className="btn btn-primary" >Все посты</Link>
             <span >
     

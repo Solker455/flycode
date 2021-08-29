@@ -9,14 +9,16 @@ import Header from './components/header';
 import Logout from './components/logout';
 import EditPost from './components/editPost';
 import { BrowserRouter as Router, Route} from 'react-router-dom';
+import Helmet from 'react-helmet';
 
 function App() {
-
+  document.title = 'Список постов';
       return (
         <Router>
+          <Helmet title="Список постов" />
         <div >
         <Header/>
-          <div className="d-flex list">
+          <div className="body">
             <Route path="/editpost/:id/:text" exact render={
               ({match}) => { 
                 return <EditPost id={match.params.id} text={match.params.text}/>}
@@ -25,8 +27,8 @@ function App() {
             <Route path="/login" exact component={Login}/>
             <Route path="/addpost" exact component={AddPost}/>
             <Route path="/logout" exact component={Logout}/>
-        </div>
             <Route path="/" exact component={PostList}/>
+        </div>
         </div>
         </Router>
         );

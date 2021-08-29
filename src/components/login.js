@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Redirect } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
+import Helmet from 'react-helmet';
 
 function Login() {
   let [email, setEmail] = useState(''),
@@ -40,13 +41,12 @@ if (response.ok) {
       }
         if (token === undefined) {
         return (
-          <div>
-            <div className='form login'>
+            <div className='form'>
+              <Helmet title="Форма входа" />
                 <input onChange={(event) => setEmail(email = event.target.value)} className="form-control" type="email" placeholder="Почта" required></input>
                 <input onChange={(event) => setPassword(password = event.target.value)} className="form-control" type="password" placeholder="Пароль" required></input>
                 <button className="btn btn-primary" onClick={onSubmitLogin} type="submit">Вход</button>
                 <div className={classMesseage}>{messeage}</div>
-            </div>
             </div>
         )
     }else{ return <Redirect to='/'/>}

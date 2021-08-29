@@ -1,6 +1,7 @@
 import React, {useState}from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { useSelector } from 'react-redux';
+import Helmet from 'react-helmet';
 
 function EditPost(obj) {
     let [text, setText] = useState(''),
@@ -33,8 +34,9 @@ if (response.ok) {
 }
 }
         return(
-            <div className="edit">
-            <input defaultValue={obj.text} type="text" onChange={(event) => setText(text = event.target.value)} className="form-control" />
+            <div className="edit-form">
+                <Helmet title="Редактировать пост" />
+            <textarea defaultValue={obj.text} onChange={(event) => setText(text = event.target.value)} className="form-control" />
             <button className="btn btn-primary" type="submit" onClick={onSubmitEdit}>Изменить</button>
             <div className={classMesseage}>{messeage}</div>
             </div>

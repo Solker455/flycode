@@ -12,19 +12,52 @@ code {
     monospace;
 }
 
-.register {
-  padding: 10px;
-  width: 500px;
-}
-
-.login {
-  padding: 10px;
-  width: 500px;
-}
-
-.auth {
+.App-header {
+  background-color: #282c34;
   text-align: center;
+  justify-content: center;
+  font-size: calc(10px);
+  color: white;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 999;
+}
+.body {
+  margin-top: 70px;
+}
+.button {
+  padding: 5px;
+  color:black;
+  text-decoration: none;
+  margin: 1px;
+}
+
+.form {
+  padding: 10px;
+  width: 400px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 .btn {
   margin: 10px;
+}
+.form-control {
+  margin: 10px;
+}
+.add-form {
+  padding: 10px;
+  width: 500px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.edit-form {
+  padding: 10px;
+  width: 500px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
 }

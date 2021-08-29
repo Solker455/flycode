@@ -5,11 +5,11 @@ import App from './App';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 
-const defaultState = {
+const defaultToken = {
   token: undefined
-}
+};
 
-const reducer = (state = defaultState, action) => {
+const tokenReducer = (state = defaultToken, action) => {
   switch (action.type) {
       case "ADD_TOKEN":
         return {...state, token: action.load}
@@ -19,7 +19,8 @@ const reducer = (state = defaultState, action) => {
       return state
   }
 }
-const store = createStore(reducer)
+
+const store = createStore(tokenReducer);
 
 ReactDOM.render(
     <Provider store={store}>
