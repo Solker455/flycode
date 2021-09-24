@@ -8,7 +8,7 @@ function AddPost() {
   let [text, setText] = useState(''),
   [messeage, setMesseage] = useState(''),
   [classMesseage, setClassMesseage] = useState('');
-  const token = useSelector(state => state.token)
+  const token = useSelector(state => state.tokenReducer.token)
       async function onAddPost() {
         let body = {'text': text};
               const url = 'https://test.flcd.ru/api/post';
@@ -23,15 +23,15 @@ function AddPost() {
 
 let result = await response.json();
 if (response.ok) {
-  setMesseage(messeage = `'${body.text}' успешно добавлен`);
-  setClassMesseage(classMesseage = 'alert-success');
+  setMesseage(`'${body.text}' успешно добавлен`);
+  setClassMesseage('alert-success');
 } else {
     if (result.errors) {
-      setMesseage(messeage = result.errors);
-      setClassMesseage(classMesseage = 'alert-danger');
+      setMesseage(result.errors);
+      setClassMesseage('alert-danger');
     }else{
-      setMesseage(messeage = result.message);
-      setClassMesseage(classMesseage = 'alert-danger');
+      setMesseage(result.message);
+      setClassMesseage('alert-danger');
     }
 }
       }
@@ -40,7 +40,7 @@ if (response.ok) {
         return (
             <div className='add-form'>
               <Helmet title="Добавить поста" />
-                <textarea onChange={(event) => setText(text = event.target.value)} className="form-control" type="text" placeholder="Введите текст поста" required></textarea>
+                <textarea onChange={(event) => setText(event.target.value)} className="form-control" type="text" placeholder="Введите текст поста"></textarea>
                 <button className="btn btn-primary" type="submit" onClick={onAddPost}>Добавить</button>
                 <div className={classMesseage}>{messeage}</div>
             </div>

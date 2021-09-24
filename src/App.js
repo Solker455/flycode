@@ -3,7 +3,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import Login from './components/login';
 import Register from './components/register';
-import PostList from './components/list-posts';
+import PostList from './components/listPosts';
 import AddPost from './components/addPost';
 import Header from './components/header';
 import Logout from './components/logout';

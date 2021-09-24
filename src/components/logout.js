@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 function Logout() {
     const dispatch = useDispatch()
     useEffect(() => {
-        dispatch({type:"ADD_TOKEN", load: undefined})
+        dispatch({type:"DELETE_TOKEN"})
     })
         return <Redirect to='/' />
 }

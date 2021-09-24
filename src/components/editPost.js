@@ -2,43 +2,33 @@ import React, {useState}from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { useSelector } from 'react-redux';
 import Helmet from 'react-helmet';
+import { editPost } from '../api/api';
 
 function EditPost(obj) {
     let [text, setText] = useState(''),
-    [messeage, setMesseage] = useState(''),
-    [classMesseage, setClassMesseage] = useState('');
-    const token = useSelector(state => state.token)
+    [message, setMessage] = useState(''),
+    [classMessage, setClassMessage] = useState('');
+    const token = useSelector(state => state.tokenReducer.token)
 async function onSubmitEdit() {
-    let body = {'text': text}
-    const url = `https://test.flcd.ru/api/post/${obj.id}`;
-    let response = await fetch(url, {
-      method: 'PATCH',
-      body: JSON.stringify(body),
-      headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-      }
-    });
-let result = await response.json();
-if (response.ok) {
-    setMesseage(messeage = 'Пост изменен');
-      setClassMesseage(classMesseage = 'alert-success');
-} else {
-  if (result.errors) {
-    setMesseage(messeage = result.errors);
-    setClassMesseage(classMesseage = 'alert-danger');
-    }else{
-        setMesseage(messeage = result.message);
-    setClassMesseage(classMesseage = 'alert-danger');
-    }
-}
+    editPost(text, token, obj.id).then(response => {
+        setMessage('Пост изменен');
+        setClassMessage('alert-success');
+    }).catch(error => {
+        if (error.response.data.errors){
+            setMessage(error.response.data.errors);
+            }
+            if (error.response.data.message) {
+            setMessage(error.response.data.message);
+            }
+            setClassMessage('alert-danger');
+    })
 }
         return(
             <div className="edit-form">
                 <Helmet title="Редактировать пост" />
-            <textarea defaultValue={obj.text} onChange={(event) => setText(text = event.target.value)} className="form-control" />
+            <textarea defaultValue={obj.text} onChange={(event) => setText(event.target.value)} className="form-control" />
             <button className="btn btn-primary" type="submit" onClick={onSubmitEdit}>Изменить</button>
-            <div className={classMesseage}>{messeage}</div>
+            <div className={classMessage}>{message}</div>
             </div>
         )
 }

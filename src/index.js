@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import { createStore } from 'redux';
+import { createStore, combineReducers} from 'redux';
 import { Provider } from 'react-redux';
 
 const defaultToken = {
@@ -12,7 +12,7 @@ const defaultToken = {
 const tokenReducer = (state = defaultToken, action) => {
   switch (action.type) {
       case "ADD_TOKEN":
-        return {...state, token: action.load}
+        return {...state, token: action.token}
       case "DELETE_TOKEN":
         return {...state, token: undefined}
     default:
@@ -20,7 +20,11 @@ const tokenReducer = (state = defaultToken, action) => {
   }
 }
 
-const store = createStore(tokenReducer);
+const rootReducer = combineReducers({
+  tokenReducer
+})
+
+const store = createStore(rootReducer);
 
 ReactDOM.render(
     <Provider store={store}>

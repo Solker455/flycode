@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 function PostListItem({label, onDelete, idEdit, textEdit}) {
         let link = `/editpost/${idEdit}/${textEdit}`
         let classNames;
-        const token = useSelector(state => state.token)
+        const token = useSelector(state => state.tokenReducer.token)
         if (token !== undefined) {
             classNames = 'd-flex'
         }else{
