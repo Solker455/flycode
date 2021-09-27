@@ -15,7 +15,8 @@ function Register() {
   const dispatch = useDispatch();
   const token = useSelector(state => state.tokenReducer.token)
 
-  async function onSubmit() {
+  function onSubmit(e) {
+    e.preventDefault();
     register(name, email, password, passwordConfirmation).then(response => {
       dispatch({type:"ADD_TOKEN", token: response.data.token});
     }).catch(error => {
@@ -31,15 +32,15 @@ function Register() {
 }
     if (token === undefined) {
   return ( 
-      <div className="form">
+      <form className="form" onSubmit={onSubmit}>
         <Helmet title="Форма регистрации" />
-        <input onChange={(event) => setName(event.target.value)} className="form-control" type="text" placeholder="Имя"></input>
-        <input onChange={(event) => setEmail(event.target.value)} className="form-control" type="email" placeholder="Почта"></input>
-        <input onChange={(event) => setPassword(event.target.value)} className="form-control" type="password" placeholder="Пароль"></input>
-        <input onChange={(event) => setPasswordConfirmation(event.target.value)} className="form-control" type="password" placeholder="Подтверждение пароля"></input>
-        <button className="btn btn-primary" type="submit" onClick={onSubmit}>Зарегистрироваться</button>
+        <input onChange={(event) => setName(event.target.value)} className="form-control" type="text" placeholder="Имя" required></input>
+        <input onChange={(event) => setEmail(event.target.value)} className="form-control" type="email" placeholder="Почта" required></input>
+        <input onChange={(event) => setPassword(event.target.value)} className="form-control" type="password" placeholder="Пароль" required></input>
+        <input onChange={(event) => setPasswordConfirmation(event.target.value)} className="form-control" type="password" placeholder="Подтверждение пароля" required></input>
+        <button className="btn btn-primary" type="submit" >Зарегистрироваться</button>
         <div className={classMessage}>{message}</div>
-      </div>
+      </form>
   );
     }else {return <Redirect to='/' />}
 }

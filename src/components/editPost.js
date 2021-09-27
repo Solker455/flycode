@@ -9,7 +9,8 @@ function EditPost(obj) {
     [message, setMessage] = useState(''),
     [classMessage, setClassMessage] = useState('');
     const token = useSelector(state => state.tokenReducer.token)
-async function onSubmitEdit() {
+
+function onSubmitEdit() {
     editPost(text, token, obj.id).then(response => {
         setMessage('Пост изменен');
         setClassMessage('alert-success');

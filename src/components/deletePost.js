@@ -1,6 +1,6 @@
 import { deleteItem } from "../api/api";
 
-export async function deletePost(idItem, token, load) {
+export function deletePost(idItem, token, load) {
     deleteItem(idItem, token).then(response => {
       load(false)
         alert(`Пост удален!`);

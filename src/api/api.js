@@ -1,9 +1,10 @@
 import axios from 'axios';
 
-export function getPost() {
+export function getPosts() {
 const url = 'http://test.flcd.ru/api/post';
     return axios.get(url)
 }
+
 export function deleteItem(idItem, token) {
     const url = `https://test.flcd.ru/api/post/${idItem}`;
     return axios.delete(url, {
@@ -13,6 +14,7 @@ export function deleteItem(idItem, token) {
         }
     })
 }
+
 export function login(emailInput, passwordInput) {
     const url = 'https://test.flcd.ru/api/token';
         return axios.post(url, {
@@ -20,6 +22,7 @@ export function login(emailInput, passwordInput) {
             password: passwordInput
         })
     }
+
 export function register(nameInput, emailInput, passwordInput, passwordConfirmationInput) {
     const url = 'https://test.flcd.ru/api/register';
         return axios.post(url, {
@@ -32,9 +35,19 @@ export function register(nameInput, emailInput, passwordInput, passwordConfirmat
 
 export function editPost(textInput, token, obj) {
     const url = `https://test.flcd.ru/api/post/${obj}`;
-    return axios.patch(url, {
-        text: textInput,
-        headers: {
+    return axios.patch(url,
+        {text: textInput},
+        {headers: {
+          'Authorization': `Bearer ${token}`,
+        }
+    })
+}
+
+export function addPost(textInput, token) {
+    const url = `https://test.flcd.ru/api/post`;
+    return axios.post(url,
+        {text: textInput},
+        {headers: {
           'Authorization': `Bearer ${token}`,
         }
     })

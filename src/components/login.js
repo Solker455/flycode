@@ -13,7 +13,8 @@ function Login() {
   const dispatch = useDispatch();
   const token = useSelector(state => state.tokenReducer.token)
 
-      async function onSubmitLogin() {
+      function onSubmitLogin(e) {
+        e.preventDefault();
         login(email, password).then(response => {
         dispatch({type:"ADD_TOKEN", token: response.data.token});
         }).catch(error => {
@@ -28,13 +29,13 @@ function Login() {
       }
         if (token === undefined) {
         return (
-            <div className='form'>
+            <form className='form' onSubmit={onSubmitLogin}>
               <Helmet title="Форма входа" />
-                <input onChange={(event) => setEmail(event.target.value)} className="form-control" type="email" placeholder="Почта" ></input>
-                <input onChange={(event) => setPassword(event.target.value)} className="form-control" type="password" placeholder="Пароль"></input>
-                <button className="btn btn-primary" onClick={onSubmitLogin} type="submit">Вход</button>
+                <input onChange={(event) => setEmail(event.target.value)} className="form-control" type="email" placeholder="Почта" required></input>
+                <input onChange={(event) => setPassword(event.target.value)} className="form-control" type="password" placeholder="Пароль" required></input>
+                <button className="btn btn-primary" type="submit">Вход</button>
                 <div className={classMessage}>{message}</div>
-            </div>
+            </form>
         )
     }else{ return <Redirect to='/'/>}
 }

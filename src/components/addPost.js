@@ -3,37 +3,26 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { Redirect } from 'react-router';
 import { useSelector } from 'react-redux';
 import Helmet from 'react-helmet';
+import { addPost } from '../api/api';
 
 function AddPost() {
   let [text, setText] = useState(''),
-  [messeage, setMesseage] = useState(''),
-  [classMesseage, setClassMesseage] = useState('');
+  [message, setMessage] = useState(''),
+  [classMessage, setClassMessage] = useState('');
   const token = useSelector(state => state.tokenReducer.token)
-      async function onAddPost() {
-        let body = {'text': text};
-              const url = 'https://test.flcd.ru/api/post';
-              let response = await fetch(url, {
-                method: 'POST',
-                body: JSON.stringify(body),
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }
-              });
-
-let result = await response.json();
-if (response.ok) {
-  setMesseage(`'${body.text}' успешно добавлен`);
-  setClassMesseage('alert-success');
-} else {
-    if (result.errors) {
-      setMesseage(result.errors);
-      setClassMesseage('alert-danger');
-    }else{
-      setMesseage(result.message);
-      setClassMesseage('alert-danger');
-    }
-}
+      function onAddPost() {
+        addPost(text, token).then(response => {
+          setMessage(`Пост '${text}' добавлен`);
+          setClassMessage('alert-success');
+      }).catch(error => {
+          if (error.response.data.errors){
+              setMessage(error.response.data.errors);
+              }
+              if (error.response.data.message) {
+              setMessage(error.response.data.message);
+              }
+              setClassMessage('alert-danger');
+      })
       }
 
         if (token !== undefined) {
@@ -42,7 +31,7 @@ if (response.ok) {
               <Helmet title="Добавить поста" />
                 <textarea onChange={(event) => setText(event.target.value)} className="form-control" type="text" placeholder="Введите текст поста"></textarea>
                 <button className="btn btn-primary" type="submit" onClick={onAddPost}>Добавить</button>
-                <div className={classMesseage}>{messeage}</div>
+                <div className={classMessage}>{message}</div>
             </div>
         )
     }else{ return <Redirect to='/'/>}
