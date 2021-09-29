@@ -3,13 +3,14 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import Login from './components/login';
 import Register from './components/register';
-import PostList from './components/listPosts';
-import AddPost from './components/addPost';
+import PostList from './components/post/listPosts';
+import AddPost from './components/post/addPost';
 import Header from './components/header';
 import Logout from './components/logout';
-import EditPost from './components/editPost';
+import EditPost from './components/post/editPost';
 import { BrowserRouter as Router, Route} from 'react-router-dom';
 import Helmet from 'react-helmet';
+import Post from './components/post/post';
 
 function App() {
   document.title = 'Список постов';
@@ -19,6 +20,10 @@ function App() {
         <div >
         <Header/>
           <div className="body">
+            <Route path="/post/:id" exact render={
+              ({match}) => { 
+                return <Post id={match.params.id}/>}
+            }/>
             <Route path="/editpost/:id/:text" exact render={
               ({match}) => { 
                 return <EditPost id={match.params.id} text={match.params.text}/>}

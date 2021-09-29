@@ -1,9 +1,9 @@
-import { deleteItem } from "../api/api";
+import { deletePostComment } from "../../../api/api";
 
-export function deletePost(idItem, token, load) {
-    deleteItem(idItem, token).then(response => {
+export function deleteComment(idComment, token, load) {
+    deletePostComment(idComment, token).then(() => {
       load(false)
-        alert(`Пост удален!`);
+        alert(`Комментарий удален!`);
     }).catch(error => {
       if(error.response.status === 403) {
         alert('Доступ запрещен')
@@ -12,7 +12,7 @@ export function deletePost(idItem, token, load) {
         alert('Вы не авторизованы')
       }
       if(error.response.status === 404) {
-        alert('Пост не найден')
+        alert('Комментарий не найден')
       }
     })
   }

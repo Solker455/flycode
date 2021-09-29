@@ -2,7 +2,7 @@ import React, {useState, useEffect}from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import PostListItem from './postListItem';
 import { withRouter } from 'react-router';
-import { getPosts } from '../api/api';
+import { getPosts } from '../../api/api';
 import { useSelector } from 'react-redux';
 import { deletePost } from './deletePost';
 
@@ -21,7 +21,8 @@ function PostList () {
             <li key={item.id} className="list-group-item">
                 <PostListItem 
                 label={item.text}
-                idEdit={item.id}
+                comments={item.comments.length}
+                id={item.id}
                 onDelete={() => deletePost(item.id, token, setLoad)}
                 textEdit={item.text}
                 />

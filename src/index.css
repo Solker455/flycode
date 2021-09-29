@@ -61,3 +61,36 @@ code {
   margin-left: auto;
   margin-right: auto;
 }
+.app-list-item-label {
+  font-size: 18pt;
+  color: black;
+}
+.app-list-item-label:hover {
+  text-decoration: none;
+  color:#007bff;
+}
+.comments-item {
+  font-size: 8pt;
+}
+.button-delete-post {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  margin: 0 10px;
+}
+.button-edit-post {
+  width: 40px;
+  height: 40px;
+  margin: 0 10px;
+}
+.button-delete-comment {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin: 0 10px;
+}
+.button-edit-comment {
+  width: 20px;
+  height: 20px;
+  margin: 0 10px;
+}

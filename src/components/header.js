@@ -10,8 +10,7 @@ function Header() {
               let response = await fetch(url, {
                 method: 'GET',
                 headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
+                    'Authorization': `Bearer ${token}`
                 }
               });
 
@@ -37,9 +36,7 @@ if (response.ok) {
             <div className="App-header ">
                     <Link to="/" className="btn btn-primary" >Все посты</Link>
             <span >
-    
                     <Link to="/addpost" className="btn btn-primary">Добавить пост</Link>
-    
                     <Link to="/logout" className="btn btn-primary">Выход</Link>  
                     <button className="btn btn-primary" onClick={onSubmitLogin} >Получить инфо</button> 
                         </span> 

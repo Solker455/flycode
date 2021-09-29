@@ -5,6 +5,16 @@ const url = 'http://test.flcd.ru/api/post';
     return axios.get(url)
 }
 
+export async function getComments(id) {
+    const url = `http://test.flcd.ru/api/post/${id}/comments`;
+        return await axios.get(url)
+    }
+
+export async function getPost(id) {
+    const url = `http://test.flcd.ru/api/post/${id}`;
+        return await axios.get(url)
+    }
+
 export function deleteItem(idItem, token) {
     const url = `https://test.flcd.ru/api/post/${idItem}`;
     return axios.delete(url, {
@@ -47,6 +57,24 @@ export function addPost(textInput, token) {
     const url = `https://test.flcd.ru/api/post`;
     return axios.post(url,
         {text: textInput},
+        {headers: {
+          'Authorization': `Bearer ${token}`,
+        }
+    })
+}
+export function addPostComment(textInput, token, id) {
+    const url = `https://test.flcd.ru/api/comment`;
+    return axios.post(url,
+        {text: textInput,
+        post_id: id},
+        {headers: {
+          'Authorization': `Bearer ${token}`,
+        }
+    })
+}
+export function deletePostComment(id, token) {
+    const url = `https://test.flcd.ru/api/comment/${id}`;
+    return axios.delete(url,
         {headers: {
           'Authorization': `Bearer ${token}`,
         }

@@ -1,8 +1,8 @@
-import React, {useState}from 'react';
+import React, {useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { useSelector } from 'react-redux';
 import Helmet from 'react-helmet';
-import { editPost } from '../api/api';
+import { editPost } from '../../api/api';
 
 function EditPost(obj) {
     let [text, setText] = useState(''),
@@ -10,8 +10,9 @@ function EditPost(obj) {
     [classMessage, setClassMessage] = useState('');
     const token = useSelector(state => state.tokenReducer.token)
 
-function onSubmitEdit() {
-    editPost(text, token, obj.id).then(response => {
+function onSubmitEdit(e) {
+    e.preventDefault();
+    editPost(text, token, obj.id).then(() => {
         setMessage('Пост изменен');
         setClassMessage('alert-success');
     }).catch(error => {
@@ -25,12 +26,12 @@ function onSubmitEdit() {
     })
 }
         return(
-            <div className="edit-form">
+            <form className="edit-form" onSubmit={onSubmitEdit}>
                 <Helmet title="Редактировать пост" />
             <textarea defaultValue={obj.text} onChange={(event) => setText(event.target.value)} className="form-control" />
-            <button className="btn btn-primary" type="submit" onClick={onSubmitEdit}>Изменить</button>
+            <button className="btn btn-primary" type="submit">Изменить</button>
             <div className={classMessage}>{message}</div>
-            </div>
+            </form>
         )
 }
 
