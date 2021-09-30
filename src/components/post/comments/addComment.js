@@ -13,7 +13,7 @@ function AddComment(obj) {
         event.preventDefault();
         addPostComment(text, token, obj.id).then(() => {
             setMessage(`Комментарий отправлен`);
-            setClassMessage('alert-success');
+            setClassMessage('alert-success message');
             obj.load(false);
         }).catch(error => {
             if (error.response.data.errors){
@@ -22,21 +22,23 @@ function AddComment(obj) {
                 if (error.response.data.message) {
                 setMessage(error.response.data.message);
                 }
-                setClassMessage('alert-danger');
+                setClassMessage('alert-danger message');
         })
     }
 
     if (token !== undefined) {
-        classForm = 'd-block'
+        classForm = 'd-flex'
     }else{
         classForm = 'd-none'
     }
     return (
+        <div>
         <form className={classForm} onSubmit={postAddComment}>
-            <input type="text" onChange={(event) => setText(event.target.value)} placeholder="Введите текст комментария"></input>
-            <button type="submit">Отправить</button>
-            <div className={classMessage}>{message}</div>
+            <input type="text" className="form-control form-comment" maxLength="150" onChange={(event) => setText(event.target.value)} placeholder="Введите текст комментария"></input>
+            <button className="btn btn-primary" type="submit">Отправить</button>
         </form>
+            <div className={classMessage}>{message}</div>
+        </div>
     )
 }
 

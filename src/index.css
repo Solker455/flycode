@@ -12,6 +12,10 @@ code {
     monospace;
 }
 
+li {
+  list-style-type: none;
+}
+
 .App-header {
   background-color: #282c34;
   text-align: center;
@@ -84,13 +88,59 @@ code {
   margin: 0 10px;
 }
 .button-delete-comment {
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   cursor: pointer;
   margin: 0 10px;
 }
 .button-edit-comment {
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   margin: 0 10px;
+  cursor: pointer;
+}
+.view-post {
+  border: 2px #282c34 solid;
+  margin: 10px;
+  border-radius: 20px;
+  z-index: 999;
+  background-color:#282c34;
+  color: white;
+}
+.text-title-post {
+  display: inline;
+}
+.title-post {
+  font-size: 28pt;
+  font-weight: bold;
+  padding: 10px;
+  background-color:#007bff;
+  border-radius: 17px;
+  color: #282c34;
+}
+.info-post {
+  font-size: 16pt;
+  margin: 10px;
+}
+.view-comments-post {
+  font-size: 14pt;
+}
+.view-comment {
+  background-color: white;
+  color: black;
+  padding: 5px;
+  border-radius: 17px;
+  margin: 5px 0;
+  text-align: center;
+  width: 400px;
+  overflow:hidden
+}
+.form-comment {
+  width: 400px !important;
+}
+.message {
+  width: 500px;
+  padding: 2px;
+  margin-left: 10px;
+  margin-bottom: 20px;
 }

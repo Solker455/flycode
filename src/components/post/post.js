@@ -12,7 +12,8 @@ function Post(obj) {
     [load, setLoad] = useState(false),
     title,
     classNames;
-    const token = useSelector(state => state.tokenReducer.token)
+    const token = useSelector(state => state.tokenReducer.token),
+    userInfo = useSelector(state => state.infoReducer.userInfo);
 
    useEffect(() => {
         getPost(obj.id).then(response => {
@@ -21,26 +22,31 @@ function Post(obj) {
         })
     }, [load])
     title = `Пост ${post.text}`;
-    if (token !== undefined) {
-        classNames = 'd-inline'
+    if (userInfo === post.user_id) {
+        classNames = 'd-inline float-right'
     }else{
         classNames = 'd-none'
     }
     let linkEdit = `/editpost/${obj.id}/${post.text}`;
     return (
-        <div>
+    <div className="view-post">
         <Helmet title={title} />
-    <div>{post.text} <div className={classNames}>
-                        <img className='button-delete-post' title="Удалить" alt="Корзина удаления" onClick={() => deletePost(post.id, token, setLoad)} src="\png\delete.png" />
-                            <Link to={linkEdit} >
-                                <img className='button-edit-post' title="Редактировать" alt="Карандаш редактирования" src="\png\edit.png" />
-                            </Link>
-                    </div>
-        </div>
-    <div>Дата создания: {post.created_at}</div>
-    <div>Дата редактирования: {post.updated_at}</div>
-    <div>Автор ID: {post.user_id}</div>
-    <ListComments id={obj.id}/>
+            <div className="title-post">
+                <div className="text-title-post">{post.text}</div>
+                <div className={classNames}>
+                    <img className='button-delete-post' title="Удалить" alt="Корзина удаления" onClick={() => deletePost(post.id, token, setLoad)} src="\png\delete.png" />
+                        <Link to={linkEdit} >
+                            <img className='button-edit-post' title="Редактировать" alt="Карандаш редактирования" src="\png\edit.png" />
+                        </Link>
+                </div>
+            </div>
+            <div className="info-post">
+            <div>Дата создания: {post.created_at}</div>
+            <div>Дата редактирования: {post.updated_at}</div>
+            <div>Автор ID: {post.user_id}</div>
+            </div>
+            <hr/>
+        <ListComments id={obj.id}/>
     </div>
     )
 }

@@ -21,13 +21,13 @@ function ListComments(obj) {
     if (load) {
         comments = commentsArray.map((item) => {
             if (userInfo === item.user_id) {
-                classForm = 'd-inline'
+                classForm = 'd-block'
             }else{
                 classForm = 'd-none'
             }
             return (
-                <li key={item.id}>
-                    {item.text} 
+                <li key={item.id} className="d-flex">
+                    <div className=" view-comment title-comment">{item.text}</div>
                     <div className={classForm}>
                         <img className="button-delete-comment" title="Удалить" alt="Корзина удаления" onClick={() => deleteComment(item.id, token, setLoad)} src="\png\delete.png" />
                         <img className="button-edit-comment" title="Редактировать" alt="Карандаш редактирования" onClick={() => editComment(item.id, item.text, token, setLoad)} src="\png\edit.png" />
@@ -37,11 +37,12 @@ function ListComments(obj) {
         })
     }
     return (
-        <div>
+        <div className="view-comments-post">
             Комментариев ({commentsArray.length}): 
         <ul>
             {comments}
         </ul>
+        <hr/>
         <AddComment id={obj.id} load={setLoad}/>
         </div>
     )
