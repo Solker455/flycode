@@ -43,8 +43,8 @@ export function register(nameInput, emailInput, passwordInput, passwordConfirmat
         })
     }
 
-export function editPost(textInput, token, obj) {
-    const url = `https://test.flcd.ru/api/post/${obj}`;
+export function editPost(textInput, token, id) {
+    const url = `https://test.flcd.ru/api/post/${id}`;
     return axios.patch(url,
         {text: textInput},
         {headers: {
@@ -75,6 +75,25 @@ export function addPostComment(textInput, token, id) {
 export function deletePostComment(id, token) {
     const url = `https://test.flcd.ru/api/comment/${id}`;
     return axios.delete(url,
+        {headers: {
+          'Authorization': `Bearer ${token}`,
+        }
+    })
+}
+
+export function editPostComment(id, textInput, token) {
+    const url = `https://test.flcd.ru/api/comment/${id}`;
+    return axios.patch(url,
+        {text: textInput},
+        {headers: {
+          'Authorization': `Bearer ${token}`,
+        }
+    })
+}
+
+export function getUser(token) {
+    const url = `https://test.flcd.ru/api/user/self`;
+    return axios.get(url,
         {headers: {
           'Authorization': `Bearer ${token}`,
         }

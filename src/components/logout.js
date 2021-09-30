@@ -7,6 +7,7 @@ function Logout() {
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch({type:"DELETE_TOKEN"})
+        dispatch({type:"DELETE_INFO"})
     })
         return <Redirect to='/' />
 }

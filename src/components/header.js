@@ -4,21 +4,7 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 function Header() {
-    const token = useSelector(state => state.tokenReducer.token)
-    async function onSubmitLogin() {
-              const url = 'https://test.flcd.ru/api/user/self';
-              let response = await fetch(url, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-              });
-
-              let result = await response.json();
-if (response.ok) {
-    console.log(result)
-}
-    }
+    const token = useSelector(state => state.tokenReducer.token);
         if (token===undefined) {
             return(
                 <div className="App-header ">
@@ -37,8 +23,7 @@ if (response.ok) {
                     <Link to="/" className="btn btn-primary" >Все посты</Link>
             <span >
                     <Link to="/addpost" className="btn btn-primary">Добавить пост</Link>
-                    <Link to="/logout" className="btn btn-primary">Выход</Link>  
-                    <button className="btn btn-primary" onClick={onSubmitLogin} >Получить инфо</button> 
+                    <Link to="/logout" className="btn btn-primary">Выход</Link>
                         </span> 
                         </div>
             )

@@ -4,6 +4,7 @@ import { Redirect } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import Helmet from 'react-helmet';
 import { login } from '../api/api';
+import { getUser } from '../api/api';
 
 function Login() {
   let [email, setEmail] = useState(''),
@@ -17,6 +18,9 @@ function Login() {
         e.preventDefault();
         login(email, password).then(response => {
         dispatch({type:"ADD_TOKEN", token: response.data.token});
+        getUser(response.data.token).then(response => {
+          dispatch({type:"ADD_INFO", userInfo: response.data.id});
+        })
         }).catch(error => {
           if (error.response.data.errors){
           setMessage(error.response.data.errors);

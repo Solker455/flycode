@@ -4,12 +4,14 @@ import { getComments } from "../../../api/api";
 import AddComment from './addComment';
 import { deleteComment } from "./deleteComment";
 import { useSelector } from 'react-redux';
+import { editComment } from "./editComment";
 
 function ListComments(obj) {
     let [commentsArray, setCommentsArray] = useState([]),
     [load, setLoad] = useState(false),
-    comments;
+    comments, classForm;
     const token = useSelector(state => state.tokenReducer.token);
+    const userInfo = useSelector(state => state.infoReducer.userInfo);
        useEffect(() => {
                 getComments(obj.id).then(response => {
                     setCommentsArray(response.data);
@@ -18,9 +20,18 @@ function ListComments(obj) {
        }, [load])
     if (load) {
         comments = commentsArray.map((item) => {
+            if (userInfo === item.user_id) {
+                classForm = 'd-inline'
+            }else{
+                classForm = 'd-none'
+            }
             return (
                 <li key={item.id}>
-                    {item.text} - <img className='button-delete-comment' title="Удалить" alt="Корзина удаления" onClick={() => deleteComment(item.id, token, setLoad)} src="\png\delete.png" />
+                    {item.text} 
+                    <div className={classForm}>
+                        <img className="button-delete-comment" title="Удалить" alt="Корзина удаления" onClick={() => deleteComment(item.id, token, setLoad)} src="\png\delete.png" />
+                        <img className="button-edit-comment" title="Редактировать" alt="Карандаш редактирования" onClick={() => editComment(item.id, item.text, token, setLoad)} src="\png\edit.png" />
+                    </div>
                 </li>
             )
         })

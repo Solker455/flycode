@@ -25,6 +25,7 @@ function PostList () {
                 id={item.id}
                 onDelete={() => deletePost(item.id, token, setLoad)}
                 textEdit={item.text}
+                userId={item.user_id}
                 />
             </li>
         )

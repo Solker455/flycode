@@ -2,7 +2,7 @@ import { deleteItem } from "../../api/api";
 
 export function deletePost(idItem, token, load) {
     deleteItem(idItem, token).then(() => {
-      load(false)
+      load(false);
         alert(`Пост удален!`);
     }).catch(error => {
       if(error.response.status === 403) {
