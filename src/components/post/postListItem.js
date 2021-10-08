@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 function PostListItem({label, comments, onDelete, id, textEdit, userId}) {
-        let linkEdit = `/editpost/${id}/${textEdit}`,
+        let linkEdit = `/editpost/${textEdit}/${id}`,
         linkPost = `/post/${id}`,
         classNames;
         const userInfo = useSelector(state => state.infoReducer.userInfo);

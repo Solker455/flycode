@@ -20,18 +20,18 @@ function App() {
         <div >
         <Header/>
           <div className="body">
-            <Route path="/post/:id" exact render={
+            <Route path="/post/:id" render={
               ({match}) => { 
                 return <Post id={match.params.id}/>}
             }/>
-            <Route path="/editpost/:id/:text" exact render={
+            <Route path="/editpost/:text/:id/" render={
               ({match}) => { 
-                return <EditPost id={match.params.id} text={match.params.text}/>}
+                return <EditPost  text={match.params.text} id={match.params.id}/>}
             }/>
-            <Route path="/register" exact component={Register}/>
-            <Route path="/login" exact component={Login}/>
-            <Route path="/addpost" exact component={AddPost}/>
-            <Route path="/logout" exact component={Logout}/>
+            <Route path="/register" component={Register}/>
+            <Route path="/login" component={Login}/>
+            <Route path="/addpost" component={AddPost}/>
+            <Route path="/logout" component={Logout}/>
             <Route path="/" exact component={PostList}/>
         </div>
         </div>
