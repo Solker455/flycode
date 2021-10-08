@@ -5,18 +5,18 @@ import { getPost } from '../../api/api';
 import ListComments from './comments/listComments';
 import { useSelector } from 'react-redux';
 import { deletePost } from './deletePost';
-import { Link } from 'react-router-dom';
+import { Link, useRouteMatch } from 'react-router-dom';
 
-function Post(obj) {
+function Post() {
     let [post, setPost] = useState({}),
     [load, setLoad] = useState(false),
     title,
     classNames;
     const token = useSelector(state => state.tokenReducer.token),
     userInfo = useSelector(state => state.infoReducer.userInfo);
-
+    let obj = useRouteMatch();
    useEffect(() => {
-        getPost(obj.id).then(response => {
+        getPost(obj.params.id).then(response => {
             setPost(response.data);
             setLoad(true)
         })
@@ -27,7 +27,7 @@ function Post(obj) {
     }else{
         classNames = 'd-none'
     }
-    let linkEdit = `/editpost/${obj.id}/${post.text}`;
+    let linkEdit = `/editpost/${post.text}/${obj.params.id}`;
     return (
     <div className="view-post">
         <Helmet title={title} />
@@ -46,7 +46,7 @@ function Post(obj) {
             <div>Автор ID: {post.user_id}</div>
             </div>
             <hr/>
-        <ListComments id={obj.id}/>
+        <ListComments id={obj.params.id}/>
     </div>
     )
 }
