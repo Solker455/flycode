@@ -8,21 +8,21 @@ import { editComment } from "./editComment";
 
 function ListComments(obj) {
     let [commentsArray, setCommentsArray] = useState([]),
-    [load, setLoad] = useState(false),
-    comments, classForm;
+        [load, setLoad] = useState(false),
+        comments, classForm;
     const token = useSelector(state => state.tokenReducer.token);
     const userInfo = useSelector(state => state.infoReducer.userInfo);
-       useEffect(() => {
-                getComments(obj.id).then(response => {
-                    setCommentsArray(response.data);
-                    setLoad(true);
-                })
-       }, [load])
+    useEffect(() => {
+        getComments(obj.id).then(response => {
+            setCommentsArray(response.data);
+            setLoad(true);
+        })
+    }, [load])
     if (load) {
         comments = commentsArray.map((item) => {
             if (userInfo === item.user_id) {
                 classForm = 'd-block'
-            }else{
+            } else {
                 classForm = 'd-none'
             }
             return (
@@ -38,12 +38,12 @@ function ListComments(obj) {
     }
     return (
         <div className="view-comments-post">
-            Комментариев ({commentsArray.length}): 
-        <ul>
-            {comments}
-        </ul>
-        <hr/>
-        <AddComment id={obj.id} load={setLoad}/>
+            Комментариев ({commentsArray.length}):
+            <ul>
+                {comments}
+            </ul>
+            <hr />
+            <AddComment id={obj.id} load={setLoad} />
         </div>
     )
 }
