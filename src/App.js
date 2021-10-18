@@ -6,7 +6,6 @@ import Register from './components/register';
 import PostList from './components/post/listPosts';
 import AddPost from './components/post/addPost';
 import Header from './components/header';
-import Logout from './components/logout';
 import EditPost from './components/post/editPost';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Helmet from 'react-helmet';
@@ -25,7 +24,6 @@ function App() {
           <Route path="/register"><Register /></Route>
           <Route path="/login"><Login /></Route>
           <Route path="/addpost"><AddPost /></Route>
-          <Route path="/logout"><Logout /></Route>
           <Route path="/" exact><PostList /></Route>
         </div>
       </div>

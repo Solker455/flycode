@@ -6,11 +6,12 @@ import { editPost } from '../../api/api';
 import { useParams } from 'react-router';
 
 function EditPost() {
-    let [text, setText] = useState(''),
-        [message, setMessage] = useState(''),
-        [classMessage, setClassMessage] = useState('');
     const token = useSelector(state => state.tokenReducer.token),
         obj = useParams();
+    let [text, setText] = useState(obj.text),
+        [message, setMessage] = useState(''),
+        [classMessage, setClassMessage] = useState('');
+
 
     function onSubmitEdit(e) {
         e.preventDefault();
@@ -30,7 +31,7 @@ function EditPost() {
     return (
         <form className="edit-form" onSubmit={onSubmitEdit}>
             <Helmet title="Редактировать пост" />
-            <textarea defaultValue={obj.text} onChange={(event) => setText(event.target.value)} className="form-control" />
+            <textarea value={text} onChange={(event) => setText(event.target.value)} className="form-control" />
             <button className="btn btn-primary" type="submit">Изменить</button>
             <div className={classMessage}>{message}</div>
         </form>
